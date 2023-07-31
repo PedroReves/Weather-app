@@ -98,5 +98,18 @@ body {
   margin-top: -6px;
 }
 
+.weather {
+  display: none;
+}
+
+.error {
+  text-align: center;
+  margin-left: 10px;
+  font-size: 20px;
+  margin-top: 30px;
+  display: none;
+}
+
+
 
 

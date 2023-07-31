@@ -3,16 +3,23 @@ const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 const searchBox = document.querySelector(".search input")
 const searchBtn = document.querySelector(".search button")
 const weatherIcon = document.querySelector(".weather-icon")
+const error = document.querySelector(".error")
+const weather = document.querySelector(".weather")
 
 searchBtn.addEventListener("click", () => {
   verificaClima(searchBox.value)
 })
 
 async function verificaClima(city) {
-  const response = await fetch(apiUrl + city + `&appid=${apiKey}`)
+  const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`)
   let data = await response.json()
 
-  console.log(data)
+  if(response.status === 404) {
+    error.style.display = 'block'
+    weather.style.display = 'none'
+  } else {
+    error.style.display = 'none'
+  }
 
   document.querySelector(".city").innerHTML = data.name
   document.querySelector(".temp").innerHTML = `${Math.round(data.main.temp)}°C`
@@ -26,4 +33,5 @@ async function verificaClima(city) {
   if(data.weather[0].main == 'Rain') weatherIcon.src = 'images/rain.png'
   if(data.weather[0].main == 'Mist') weatherIcon.src = 'images/mist.png'
   
+  weather.style.display = 'block'
 }
