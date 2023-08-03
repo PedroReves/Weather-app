@@ -6,11 +6,7 @@ const weatherIcon = document.querySelector(".weather-icon")
 const error = document.querySelector(".error")
 const weather = document.querySelector(".weather")
 
-searchBtn.addEventListener("click", () => {
-  verificaClima(searchBox.value)
-})
-
-async function verificaClima(city) {
+async function getData(city) {
   const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`)
   let data = await response.json()
 
@@ -20,6 +16,11 @@ async function verificaClima(city) {
   } else {
     error.style.display = 'none'
   }
+  return data
+}
+
+async function showWeather(city) {
+  const data = await getData(city)
 
   document.querySelector(".city").innerHTML = data.name
   document.querySelector(".temp").innerHTML = `${Math.round(data.main.temp)}°C`
@@ -35,3 +36,7 @@ async function verificaClima(city) {
   
   weather.style.display = 'block'
 }
+
+searchBtn.addEventListener("click", () => {
+  showWeather(searchBox.value)
+})
